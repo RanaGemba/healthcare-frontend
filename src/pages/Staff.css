@@ -1,0 +1,139 @@
+.patient-cards {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.patient-card {
+  flex: 0 0 calc(33.333% - 20px);
+  border: 2px solid #007bff;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px;
+  box-sizing: border-box;
+  display: inline-block;
+  background-color: #f0f0f0;
+  box-shadow: 0 4px 8px rgba(190, 12, 12, 0.835);
+  cursor: pointer;
+}
+
+.patient-card.selected {
+  border-color: #28a745;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
+.patient-card h2 {
+  margin: 0 0 10px;
+  color: #333;
+}
+
+.patient-card p {
+  margin: 5px 0;
+}
+
+.patient-form {
+  border: 2px solid #28a745;
+  border-radius: 10px;
+  background-color: #fff;
+  padding: 20px;
+  position: relative;
+}
+
+.patient-form h2 {
+  margin-bottom: 10px;
+}
+
+.patient-form .form-group {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.patient-form label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0px;
+}
+
+.patient-form input[type="text"],
+.patient-form textarea {
+  padding: 5px;
+  margin-top: 2px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.patient-form textarea {
+  resize: vertical;
+  grid-column: span 4; /* Span the whole row */
+}
+
+.patient-form .checkbox-label,
+.patient-form .radio-buttons {
+  grid-column: span 4; /* Span the whole row */
+}
+
+.patient-form .radio-label {
+  margin-right: 20px; /* Increased margin between radio buttons */
+}
+
+.patient-form button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.patient-form button:hover {
+  background-color: #0056b3;
+}
+
+.patient-form .radio-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  margin-top: 0px;
+}
+
+.close-icon {
+  position: absolute;
+  color: red;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  width: 20px;
+  text-align: center;
+}
+
+.close-icon:hover {
+  background-color: red;
+  color: white;
+}
+
+.section {
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.general-info {
+  border: 2px solid #007bff;
+  background-color: #e7f3ff;
+}
+
+.general-info h3 {
+  color: #007bff;
+}
+
+.medical-info {
+  border: 2px solid #28a745;
+  background-color: #e7f7e7;
+}
+
+.medical-info h3 {
+  color: #28a745;
+}

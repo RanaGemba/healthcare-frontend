@@ -1,0 +1,30 @@
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  color: #ffffff; 
+  text-decoration: none;
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 4px;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.sidebar-link:hover {
+  color: #ffffff; 
+  background-color: #555; 
+  transform: translateX(5px); 
+}
+
+.sidebar-link svg {
+  margin-right: 10px;
+  transition: transform 0.2s ease;
+}
+
+.sidebar-link:hover svg {
+  transform: translateX(5px); 
+}
+
+.dropdown-toggle {
+  display: flex;
+  flex-direction: column;
+}

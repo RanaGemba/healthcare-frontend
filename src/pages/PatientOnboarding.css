@@ -1,0 +1,81 @@
+.container {
+  margin: 0;
+  padding: 6px;
+  max-width: 1050px; 
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.heading {
+  text-align: center;
+  font-size: 22px; 
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.form-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px; 
+}
+
+.input-field {
+  flex: 1;
+}
+
+.input-field input,
+.input-field select {
+  width: 100%;
+  padding: 8px; 
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px; 
+  margin-bottom: 0px;
+  box-sizing: border-box; 
+}
+
+.input-field input[type="text"],
+.input-field input[type="date"],
+.input-field input[type="number"],
+.input-field input[type="tel"],
+.input-field input[type="email"] {
+  height: 35px; 
+}
+
+.section-heading {
+  margin: 10px 0 10px;
+  font-size: 20px; 
+}
+
+.address-label {
+  font-weight: bold;
+  color: #333;
+}
+
+.address-input {
+  width: 100%;
+  padding: 6px;
+
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+
+.button {
+  width: 100%;
+  padding: 10px; /* Reduced padding */
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
