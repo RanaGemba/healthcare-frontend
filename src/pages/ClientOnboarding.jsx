@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './ClientOnboarding.css';
 import axios from 'axios';
 import ClinicPopup from './clinicPopup';
-import ClinicCard from './clinicCard'; // Import the ClinicCard component
+import ClinicCard from './clinicCard'; 
 
 const ClientOnboarding = () => {
   const [clinics, setClinics] = useState([]);

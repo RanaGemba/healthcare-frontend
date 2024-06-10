@@ -30,11 +30,6 @@ const PatientRegistrationForm = () => {
     primaryInsurancePlanName: '',
     secondaryInsurancePlanName: '',
     clientName: '',
-    attachments: {
-      id: null,
-      primaryInsurance: null,
-      secondaryInsurance: null,
-    },
   });
 
   useEffect(() => {
@@ -73,41 +68,13 @@ const PatientRegistrationForm = () => {
     }
   };
 
-  const handleFileChange = (e) => {
-    const { name, files } = e.target;
-    setFormData({
-      ...formData,
-      attachments: {
-        ...formData.attachments,
-        [name]: files[0] || null
-      }
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formDataToSubmit = new FormData();
-    Object.keys(formData).forEach(key => {
-      if (key === 'attachments') {
-        Object.keys(formData.attachments).forEach(fileKey => {
-          if (formData.attachments[fileKey]) {
-            formDataToSubmit.append(fileKey, formData.attachments[fileKey]);
-          }
-        });
-      } else {
-        formDataToSubmit.append(key, formData[key]);
-      }
-    });
-
     try {
-      const response = await axios.post('http://localhost:3000/v1/api/patient/create-new-patient', formDataToSubmit, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
+      const response = await axios.post('http://localhost:3000/v1/api/patient/create-new-patient', formData);
       console.log(response);
-      window.location.reload();
+      // window.location.reload();
     } catch (error) {
       console.error('Error creating patient:', error.response ? error.response.data : error.message);
     }
@@ -117,153 +84,152 @@ const PatientRegistrationForm = () => {
     <div className="container">
       <h4 className="heading">Patient Registration Form</h4>
       <form className="form" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <div className="input-field">
-            <label>Date (MM/DD/YYYY)</label>
-            <input type="date" name="todaysDate" value={formData.todaysDate} onChange={handleChange} />
-          </div>
-          <div className="input-field">
-            <label>Clinic Name</label>
-            <select name="clinicName" value={formData.clinicName} onChange={handleChange}>
-              <option value="">Select Clinic</option>
-              {businessProviders.map((provider) => (
-                <option key={provider.id} value={provider.name}>
-                  {provider.name}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        <h2 className="section-heading">Patient Information</h2>
-        <div className="form-group">
-          <div className="input-field">
-            <label>First Name</label>
-            <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} />
-          </div>
-          <div className="input-field">
-            <label>Last Name</label>
-            <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} />
-          </div>
-          <div className="input-field">
-            <label>Date of Birth</label>
-            <input type="date" name="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange} />
-          </div>
-          <div className="input-field">
-            <label>Age</label>
-            <input type="number" name="age" value={formData.age} onChange={handleChange} />
+        <div className="section">
+          <h5 className="section-header">General Information</h5>
+          <div className="form-group">
+            <div className="input-field">
+              <label>Date (MM/DD/YYYY)</label>
+              <input type="date" name="todaysDate" value={formData.todaysDate} onChange={handleChange} />
+            </div>
+            <div className="input-field">
+              <label>Clinic Name</label>
+              <select name="clinicName" value={formData.clinicName} onChange={handleChange}>
+                <option value="">Select Clinic</option>
+                {businessProviders.map((provider) => (
+                  <option key={provider.id} value={provider.name}>
+                    {provider.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
 
-        <label className="address-label">Address</label>
-        <input type="text" name="address" className="address-input" value={formData.address} onChange={handleChange} />
+        <div className="section">
+          <h5 className="section-header">Patient Information</h5>
+          <div className="form-group">
+            <div className="input-field">
+              <label>First Name</label>
+              <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} />
+            </div>
+            <div className="input-field">
+              <label>Last Name</label>
+              <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} />
+            </div>
+            <div className="input-field">
+              <label>Date of Birth</label>
+              <input type="date" name="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange} />
+            </div>
+            <div className="input-field">
+              <label>Age</label>
+              <input type="number" name="age" value={formData.age} onChange={handleChange} />
+            </div>
+          </div>
 
-        <div className="form-group">
-          <div className="input-field">
-            <label>State</label>
-            <select name="state" value={formData.state} onChange={handleChange}>
-              <option value="">Select State</option>
-              {states.map((state) => (
-                <option key={state.isoCode} value={state.isoCode}>
-                  {state.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="input-field">
-            <label>City</label>
-            <select name="city" value={formData.city} onChange={handleChange}>
-              <option value="">Select City</option>
-              {cities.map((city) => (
-                <option key={city.name} value={city.name}>
-                  {city.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="input-field">
-            <label>Zip-Code</label>
-            <input type="tel" name="zipcode" value={formData.zipcode} onChange={handleChange} />
-          </div>
-          <div className="input-field">
-            <label>Phone No.</label>
-            <input type="tel" name="phone" value={formData.phone} onChange={handleChange} />
-          </div>
-          <div className="input-field">
-            <label>Email</label>
-            <input type="email" name="email" value={formData.email} onChange={handleChange} />
+          <label className="address-label">Address</label>
+          <input type="text" name="address" className="address-input" value={formData.address} onChange={handleChange} />
+
+          <div className="form-group">
+            <div className="input-field">
+              <label>State</label>
+              <select name="state" value={formData.state} onChange={handleChange}>
+                <option value="">Select State</option>
+                {states.map((state) => (
+                  <option key={state.isoCode} value={state.isoCode}>
+                    {state.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="input-field">
+              <label>City</label>
+              <select name="city" value={formData.city} onChange={handleChange}>
+                <option value="">Select City</option>
+                {cities.map((city) => (
+                  <option key={city.name} value={city.name}>
+                    {city.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="input-field">
+              <label>Zip-Code</label>
+              <input type="tel" name="zipcode" value={formData.zipcode} onChange={handleChange} />
+            </div>
+            <div className="input-field">
+              <label>Phone No.</label>
+              <input type="tel" name="phone" value={formData.phone} onChange={handleChange} />
+            </div>
+            <div className="input-field">
+              <label>Email</label>
+              <input type="email" name="email" value={formData.email} onChange={handleChange} />
+            </div>
           </div>
         </div>
 
-        <div className="form-group">
-          <div className="input-field">
-            <label>Sex</label>
-            <select name="sex" value={formData.sex} onChange={handleChange}>
-              <option value="">Select</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-            </select>
+        <div className="section">
+          <h5 className="section-header">Additional Information</h5>
+          <div className="form-group">
+            <div className="input-field">
+              <label>Sex</label>
+              <select name="sex" value={formData.sex} onChange={handleChange}>
+                <option value="">Select</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="others">Others</option>
+              </select>
+            </div>
+            <div className="input-field">
+              <label>Marital Status</label>
+              <input type="text" name="maritalStatus" value={formData.maritalStatus} onChange={handleChange} />
+            </div>
+            <div className="input-field">
+              <label>SSN</label>
+              <input type="tel" name="ssn" value={formData.ssn} onChange={handleChange} />
+            </div>
+            <div className="input-field">
+              <label>Client Staff Name</label>
+              <select name="clientName" value={formData.clientName} onChange={handleChange}>
+                <option value="">Select Client Staff</option>
+                {clientStaffs.map((staff) => (
+                  <option key={staff.id} value={staff.name}>
+                    {staff.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-          <div className="input-field">
-            <label>Marital Status</label>
-            <input type="text" name="maritalStatus" value={formData.maritalStatus} onChange={handleChange} />
-          </div>
-          <div className="input-field">
-            <label>SSN</label>
-            <input type="tel" name="ssn" value={formData.ssn} onChange={handleChange} />
-          </div>
-          <div className="input-field">
-            <label>Upload ID</label>
-            <input type="file" name="id" onChange={handleFileChange} />
-          </div>
-          <div className="input-field">
-            <label>Client Staff Name</label>
-            <select name="clientName" value={formData.clientName} onChange={handleChange}>
-              <option value="">Select Client Staff</option>
-              {clientStaffs.map((staff) => (
-                <option key={staff.id} value={staff.name}>
-                  {staff.name}
-                </option>
-              ))}
-            </select>
+
+          <div className="form-group">
+            <div className="input-field">
+              <label>Emergency Contact Name</label>
+              <input type="text" name="emergencyContactName" value={formData.emergencyContactName} onChange={handleChange} />
+            </div>
+            <div className="input-field">
+              <label>Emergency Contact No</label>
+              <input type="tel" name="emergencyContactPhone" value={formData.emergencyContactPhone} onChange={handleChange} />
+            </div>
           </div>
         </div>
 
-        <div className="form-group">
-          <div className="input-field">
-            <label>Emergency Contact Name</label>
-            <input type="text" name="emergencyContactName" value={formData.emergencyContactName} onChange={handleChange} />
-          </div>
-          <div className="input-field">
-            <label>Emergency Contact No</label>
-            <input type="tel" name="emergencyContactPhone" value={formData.emergencyContactPhone} onChange={handleChange} />
-          </div>
-        </div>
-
-        <h2 className="section-heading">Insurance Information</h2>
-        <div className="form-group">
-          <div className="input-field">
-            <label>Primary Insurance Plan Name</label>
-            <select name="primaryInsurancePlanName" value={formData.primaryInsurancePlanName} onChange={handleChange}>
-              <option value="">Select Insurance Plan</option>
-              {insurances.map((insurance) => (
-                <option key={insurance._id} value={insurance.InsuranceName}>
-                  {insurance.InsuranceName}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="input-field">
-            <label>Upload Primary Insurance</label>
-            <input type="file" name="primaryInsurance" onChange={handleFileChange} />
-          </div>
-          <div className="input-field">
-            <label>Secondary Insurance Plan Name</label>
-            <input type="text" name="secondaryInsurancePlanName" value={formData.secondaryInsurancePlanName} onChange={handleChange} />
-          </div>
-          <div className="input-field">
-            <label>Upload Secondary Insurance</label>
-            <input type="file" name="secondaryInsurance" onChange={handleFileChange} />
+        <div className="section">
+          <h5 className="section-header">Insurance Information</h5>
+          <div className="form-group">
+            <div className="input-field">
+              <label>Primary Insurance Plan Name</label>
+              <select name="primaryInsurancePlanName" value={formData.primaryInsurancePlanName} onChange={handleChange}>
+                <option value="">Select Insurance Plan</option>
+                {insurances.map((insurance) => (
+                  <option key={insurance._id} value={insurance.InsuranceName}>
+                    {insurance.InsuranceName}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="input-field">
+              <label>Secondary Insurance Plan Name</label>
+              <input type="text" name="secondaryInsurancePlanName" value={formData.secondaryInsurancePlanName} onChange={handleChange} />
+            </div>
           </div>
         </div>
 

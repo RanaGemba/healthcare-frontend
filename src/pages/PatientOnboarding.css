@@ -1,42 +1,45 @@
 .container {
-  margin: 0;
-  padding: 6px;
-  max-width: 1050px; 
+  margin: 0 auto;
+  padding: 20px;
+  max-width: 1050px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #f9f9f9;
+  background-color: #E7F3FF;
+  border: 2px solid #007bff;
 }
 
 .heading {
   text-align: center;
-  font-size: 22px; 
+  font-size: 22px;
+  margin-bottom: 20px;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  
 }
 
 .form-group {
   display: flex;
   justify-content: space-between;
-  gap: 10px; 
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
 .input-field {
   flex: 1;
+  width: 25%;
 }
 
 .input-field input,
 .input-field select {
   width: 100%;
-  padding: 8px; 
+  padding: 8px;
   border-radius: 5px;
   border: 1px solid #ccc;
-  font-size: 14px; 
-  margin-bottom: 0px;
-  box-sizing: border-box; 
+  font-size: 14px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
 }
 
 .input-field input[type="text"],
@@ -44,33 +47,35 @@
 .input-field input[type="number"],
 .input-field input[type="tel"],
 .input-field input[type="email"] {
-  height: 35px; 
+  height: 35px;
 }
 
 .section-heading {
-  margin: 10px 0 10px;
-  font-size: 20px; 
+  margin: 20px 0 10px;
+  font-size: 20px;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 5px;
 }
 
 .address-label {
   font-weight: bold;
   color: #333;
+  margin-bottom: 5px;
 }
 
 .address-input {
   width: 100%;
   padding: 6px;
-
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
   font-size: 16px;
+  margin-bottom: 15px;
 }
-
 
 .button {
   width: 100%;
-  padding: 10px; /* Reduced padding */
+  padding: 10px;
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -79,3 +84,29 @@
   font-size: 16px;
 }
 
+.button:hover {
+  background-color: #0056b3;
+}
+
+.section {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 12px 12px rgba(0, 0, 0, 0.1);
+  border: 2px solid #4CAF50; 
+}
+
+.section:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.section-header {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ae0c0c;
+  margin-bottom: 10px;
+}
