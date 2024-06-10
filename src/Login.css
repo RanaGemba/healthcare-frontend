@@ -143,3 +143,21 @@ button:hover {
     transform: scale(1.5); 
   }
 }
+
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+  
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 20px;
+}
+
+.form-group select:focus {
+  border-color: #007bff;
+  outline: none;
+}

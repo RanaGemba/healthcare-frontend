@@ -11,13 +11,12 @@ import ClinicBusinessProvider from "./pages/ClinicBusinessProvider";
 import ExistingPatients from "./pages/ExistingPatients";
 import InsuranceVerification from "./pages/insuranceVerification";
 import LoginPage from "./LoginPage";
-
-// import { useNavigate } from "react-router-dom";
+import CreateAdminUser from "./createAdminUser"; 
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
-  // const navigate = useNavigate()
+
   useEffect(() => {
     const handleStorageChange = () => {
       const updatedToken = JSON.parse(localStorage.getItem("token"));
@@ -37,14 +36,11 @@ const App = () => {
     if (token) {
       setIsAuthenticated(true);
     } else {
-      
       setIsAuthenticated(false);
-      // navigate("/")
     }
 
     console.log(accessToken, user); // Example: logging the values
   }, [token]);
-
 
   return (
     <Router>
@@ -57,20 +53,16 @@ const App = () => {
             <Route path="/insurance" element={<Insurance />} />
             <Route path="/subuser" element={<SubUser />} />
             <Route path="/staff" element={<Staff />} />
-            <Route
-              path="/clinicBusinessProvider"
-              element={<ClinicBusinessProvider />}
-            />
+            <Route path="/clinicBusinessProvider" element={<ClinicBusinessProvider />} />
             <Route path="/existingPatients" element={<ExistingPatients />} />
-            <Route
-              path="/insuranceVerification"
-              element={<InsuranceVerification />}
-            />
+            <Route path="/insuranceVerification" element={<InsuranceVerification />} />
+             
           </Routes>
         </Sidebar>
       ) : (
         <Routes>
           <Route path="/" element={<LoginPage />} />
+          <Route path="/createAdminUser" element={<CreateAdminUser />} />
         </Routes>
       )}
     </Router>

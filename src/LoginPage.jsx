@@ -64,7 +64,7 @@ const LoginPage = () => {
           </div>
           {error && <div className="error">{error}</div>}
           <div className="create-account">
-            <a href="#">Create Account</a>
+            <a href="./createAdminUser">Create Account</a>
           </div>
         </form>
       </div>
