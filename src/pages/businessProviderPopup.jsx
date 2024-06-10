@@ -9,7 +9,7 @@ const ClinicPopup = ({ onClose, addBusinessProvider }) => {
     if (businessProviderName && businessProviderAddress) {
       const newBusinessProvider = { name: businessProviderName, address: businessProviderAddress };
       try {
-        const response = await axios.post('http://localhost:3000/v1/api/businessProvider/create-new-businessProvider', newBusinessProvider);
+        const response = await axios.post('/v1/api/businessProvider/create-new-businessProvider', newBusinessProvider);
         addBusinessProvider(response.data.businessProvider);
         setBusinessProviderName('');
         setBusinessProviderAddress('');

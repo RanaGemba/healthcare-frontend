@@ -36,9 +36,9 @@ const PatientRegistrationForm = () => {
     const fetchInitialData = async () => {
       try {
         const [businessProviderRes, insuranceRes, clientStaffRes] = await Promise.all([
-          axios.get('http://localhost:3000/v1/api/businessProvider/get-all-businessProvider'),
-          axios.get('http://localhost:3000/v1/api/insurance/get-all-insurance'),
-          axios.get('http://localhost:3000/v1/api/adminUser/get-all-adminUser')
+          axios.get('/v1/api/businessProvider/get-all-businessProvider'),
+          axios.get('/v1/api/insurance/get-all-insurance'),
+          axios.get('/v1/api/adminUser/get-all-adminUser')
         ]);
 
         setBusinessProviders(businessProviderRes.data.businessProviders);
@@ -72,7 +72,7 @@ const PatientRegistrationForm = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3000/v1/api/patient/create-new-patient', formData);
+      const response = await axios.post('/v1/api/patient/create-new-patient', formData);
       console.log(response);
       // window.location.reload();
     } catch (error) {

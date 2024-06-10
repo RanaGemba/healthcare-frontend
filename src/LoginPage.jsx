@@ -11,7 +11,7 @@ const LoginPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/v1/api/adminUser/login-adminUser', {
+      const response = await fetch('/v1/api/adminUser/login-adminUser', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

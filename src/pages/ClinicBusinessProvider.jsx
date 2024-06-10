@@ -19,7 +19,7 @@ const ClinicBusinessProvider = () => {
   useEffect(() => {
     const fetchBusinessProviderData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/v1/api/businessProvider/get-all-businessProvider');
+        const response = await axios.get('/v1/api/businessProvider/get-all-businessProvider');
         setBusinessProviders(response.data.businessProviders);
       } catch (error) {
         console.error('Error fetching business provider data:', error);

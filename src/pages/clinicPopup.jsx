@@ -10,7 +10,7 @@ const ClinicPopup = ({ onClose, addClinic }) => {
     if (clinicName && clinicAddress) {
       const newClinic = { name: clinicName, address: clinicAddress };
       try {
-        const response = await axios.post('http://localhost:3000/v1/api/clinic/create-new-clinic', newClinic);
+        const response = await axios.post('/v1/api/clinic/create-new-clinic', newClinic);
         addClinic(response.data.clinic);
         setClinicName('');
         setClinicAddress('');

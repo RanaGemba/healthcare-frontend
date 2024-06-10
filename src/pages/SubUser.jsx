@@ -22,7 +22,7 @@ const SubUser = () => {
   useEffect(() => {
     const fetchClientStaffs = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/v1/api/adminUser/get-all-adminUser');
+        const response = await axios.get('/v1/api/adminUser/get-all-adminUser');
         const clientStaffUsers = response.data.adminUsers.filter(user => user.role === 'ClientStaff');
         setClientStaffs(clientStaffUsers);
       } catch (error) {
@@ -40,7 +40,7 @@ const SubUser = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/v1/api/adminUser/create-new-adminUser', {
+      const response = await axios.post('/v1/api/adminUser/create-new-adminUser', {
         ...formData,
         role: 'ClientStaff'
       });

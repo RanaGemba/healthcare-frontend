@@ -18,7 +18,7 @@ const ClinicCard = ({ clinic, onUpdate, onDelete }) => {
         return;
       }
       try {
-        const response = await axios.get(`http://localhost:3000/v1/api/doctor/get-all-doctor/${clinic._id}`);
+        const response = await axios.get(`/v1/api/doctor/get-all-doctor/${clinic._id}`);
         setDoctors(response.data.doctors);
       } catch (error) {
         console.error('Error fetching doctor data:', error);
@@ -34,7 +34,7 @@ const ClinicCard = ({ clinic, onUpdate, onDelete }) => {
     }
     const newDoctor = { name: doctorName, designation: doctorDesignation };
     try {
-      const response = await axios.post(`http://localhost:3000/v1/api/doctor/create-new-doctor/${clinic._id}`, newDoctor);
+      const response = await axios.post(`/v1/api/doctor/create-new-doctor/${clinic._id}`, newDoctor);
       setDoctors([...doctors, response.data.doctor]);
     } catch (error) {
       console.error('Error creating doctor:', error.response ? error.response.data : error.message);

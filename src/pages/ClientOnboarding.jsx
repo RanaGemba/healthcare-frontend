@@ -11,7 +11,7 @@ const ClientOnboarding = () => {
   useEffect(() => {
     const fetchClinicData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/v1/api/clinic/get-all-clinic');
+        const response = await axios.get('/v1/api/clinic/get-all-clinic');
         setClinics(response.data.clinics || []);
       } catch (error) {
         console.error('Error fetching clinic data:', error);
@@ -31,7 +31,7 @@ const ClientOnboarding = () => {
 
   const handleUpdateClinic = async (updatedClinic) => {
     try {
-      const response = await axios.put(`http://localhost:3000/v1/api/clinic/update-clinic/${updatedClinic._id}`, updatedClinic);
+      const response = await axios.put(`/v1/api/clinic/update-clinic/${updatedClinic._id}`, updatedClinic);
       // Assuming response.data.clinic is the updated clinic object
       const updatedClinics = clinics.map(clinic => clinic._id === updatedClinic._id ? response.data.clinic : clinic);
       setClinics(updatedClinics);
@@ -42,7 +42,7 @@ const ClientOnboarding = () => {
 
   const handleDeleteClinic = async (clinicId) => {
     try {
-      await axios.delete(`http://localhost:3000/v1/api/clinic/delete-clinic/${clinicId}`);
+      await axios.delete(`/v1/api/clinic/delete-clinic/${clinicId}`);
       const updatedClinics = clinics.filter(clinic => clinic._id !== clinicId);
       setClinics(updatedClinics);
     } catch (error) {

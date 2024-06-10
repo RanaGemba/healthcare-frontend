@@ -22,7 +22,7 @@ const Insurance = () => {
 
   const fetchInsuranceData = async () => {
     try {
-      const response = await fetch('http://localhost:3000/v1/api/insurance/get-all-insurance');
+      const response = await fetch('/v1/api/insurance/get-all-insurance');
       if (response.ok) {
         const data = await response.json();
         console.log('Fetched insurance data:', data.insurances); 
@@ -46,7 +46,7 @@ const Insurance = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch('http://localhost:3000/v1/api/insurance/create-new-insurance', {
+      const response = await fetch('/v1/api/insurance/create-new-insurance', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -10,7 +10,7 @@ const PatientList = () => {
   useEffect(() => {
     const fetchPatientData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/v1/api/patient/get-all-patient');
+        const response = await axios.get('/v1/api/patient/get-all-patient');
         setPatients(response.data.patients);
       } catch (error) {
         console.error('Error fetching patient data:', error);
@@ -61,7 +61,7 @@ const PatientList = () => {
     };
 
     try {
-      const response = await axios.put(`http://localhost:3000/v1/api/patient/update-patient/${selectedPatient?._id}`, updatedPatient);
+      const response = await axios.put(`/v1/api/patient/update-patient/${selectedPatient?._id}`, updatedPatient);
       console.log(response);
       window.location.reload();
     } catch (error) {

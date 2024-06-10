@@ -15,7 +15,7 @@ const InsuranceVerification = () => {
 
   const fetchPatientsData = async () => {
     try {
-      const response = await fetch('http://localhost:3000/v1/api/patient/get-all-patient');
+      const response = await fetch('/v1/api/patient/get-all-patient');
       if (response.ok) {
         const data = await response.json();
         const filteredPatients = data.patients.filter(patient => patient.needsAuthorization && patient.needsAuthorization.toLowerCase() === 'yes');
@@ -38,7 +38,7 @@ const InsuranceVerification = () => {
   const handleAccept = async (patient) => {
     try {
       const updatedPatient = { ...patient, needsAuthorization: 'no', status: 'Approved' };
-      await axios.put(`http://localhost:3000/v1/api/patient/update-patient/${patient._id}`, updatedPatient);
+      await axios.put(`/v1/api/patient/update-patient/${patient._id}`, updatedPatient);
       setPatientsData(patientsData.filter(p => p._id !== patient._id));
       setSelectedPatient(null);
     } catch (error) {
@@ -55,7 +55,7 @@ const InsuranceVerification = () => {
     if (confirmed) {
       try {
         const updatedPatient = { ...selectedPatient, status: 'Rejected', rejectionReason };
-        await axios.put(`http://localhost:3000/v1/api/patient/update-patient/${updatedPatient._id}`, updatedPatient);
+        await axios.put(`/v1/api/patient/update-patient/${updatedPatient._id}`, updatedPatient);
         setPatientsData(patientsData.filter(p => p._id !== selectedPatient._id));
       } catch (error) {
         console.error('Error updating patient status:', error);

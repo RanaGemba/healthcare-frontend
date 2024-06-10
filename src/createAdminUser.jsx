@@ -14,7 +14,7 @@ const CreateAdminUser = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/v1/api/adminUser/create-new-adminUser', {
+      const response = await fetch('/v1/api/adminUser/create-new-adminUser', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
