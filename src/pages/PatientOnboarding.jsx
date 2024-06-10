@@ -79,6 +79,22 @@ const PatientRegistrationForm = () => {
       console.error('Error creating patient:', error.response ? error.response.data : error.message);
     }
   };
+  const [primaryInsuranceCard, setPrimaryInsuranceCard] = useState(null);
+  const [secondaryInsuranceCard, setSecondaryInsuranceCard] = useState(null);
+  const [idCard, setIdCard] = useState(null);
+
+  // Additional change handlers for file uploads
+  const handlePrimaryInsuranceCardChange = (e) => {
+    setPrimaryInsuranceCard(e.target.files[0]);
+  };
+
+  const handleSecondaryInsuranceCardChange = (e) => {
+    setSecondaryInsuranceCard(e.target.files[0]);
+  };
+
+  const handleIdCardChange = (e) => {
+    setIdCard(e.target.files[0]);
+  };
 
   return (
     <div className="container">
@@ -164,6 +180,11 @@ const PatientRegistrationForm = () => {
               <label>Email</label>
               <input type="email" name="email" value={formData.email} onChange={handleChange} />
             </div>
+          
+          </div>
+          <div className="input-field">
+            <label>Upload ID</label>
+            <input type="file" accept="image/*" onChange={handleIdCardChange} />
           </div>
         </div>
 
@@ -230,7 +251,20 @@ const PatientRegistrationForm = () => {
               <label>Secondary Insurance Plan Name</label>
               <input type="text" name="secondaryInsurancePlanName" value={formData.secondaryInsurancePlanName} onChange={handleChange} />
             </div>
+
           </div>
+           <div className="form-group">
+           <div className="input-field">
+            <label>Upload Primary Insurance Card</label>
+            <input type="file" accept="image/*" onChange={handlePrimaryInsuranceCardChange} />
+          </div>
+          
+          <div className="input-field">
+            <label>Upload Secondary Insurance Card</label>
+            <input type="file" accept="image/*" onChange={handleSecondaryInsuranceCardChange} />
+          </div>
+           </div>
+           
         </div>
 
         <button type="submit" className="button">Submit</button>
