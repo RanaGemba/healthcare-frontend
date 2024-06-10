@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './PatientOnboarding.css'; 
-import axios from "axios";
+import { Country, State, City } from 'country-state-city';
+import axios from 'axios';
 
 const PatientRegistrationForm = () => {
   const [businessProviders, setBusinessProviders] = useState([]);
   const [insurances, setInsurances] = useState([]); 
-  const [clientStaffs, setClientStaffs] = useState([]); 
+  const [clientStaffs, setClientStaffs] = useState([]);
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
   const [formData, setFormData] = useState({
     todaysDate: new Date().toISOString().substr(0, 10),  
     clinicName: '',
@@ -16,59 +19,46 @@ const PatientRegistrationForm = () => {
     address: '',
     city: '',
     state: '',
+    zipcode: '',
     phone: '',
     email: '',
     sex: '',
     maritalStatus: '',
+    ssn: '',
     emergencyContactName: '',
     emergencyContactPhone: '',
     primaryInsurancePlanName: '',
-    primaryInsuranceInsuredName: '',
-    attachments: null 
+    secondaryInsurancePlanName: '',
+    clientName: '',
+    attachments: {
+      id: null,
+      primaryInsurance: null,
+      secondaryInsurance: null,
+    },
   });
 
   useEffect(() => {
-    const fetchBusinessProviderData = async () => {
+    const fetchInitialData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/v1/api/businessProvider/get-all-businessProvider');
-        console.log('Business Providers:', response.data.businessProviders); 
-        setBusinessProviders(response.data.businessProviders);
+        const [businessProviderRes, insuranceRes, clientStaffRes] = await Promise.all([
+          axios.get('http://localhost:3000/v1/api/businessProvider/get-all-businessProvider'),
+          axios.get('http://localhost:3000/v1/api/insurance/get-all-insurance'),
+          axios.get('http://localhost:3000/v1/api/adminUser/get-all-adminUser')
+        ]);
+
+        setBusinessProviders(businessProviderRes.data.businessProviders);
+        setInsurances(insuranceRes.data.insurances);
+        setClientStaffs(clientStaffRes.data.adminUsers.filter(user => user.role === "ClientStaff"));
+
+        const usStates = State.getStatesOfCountry('US');
+        setStates(usStates);
       } catch (error) {
-        console.error('Error fetching business provider data:', error);
+        console.error('Error fetching data:', error);
       }
     };
 
-    const fetchInsuranceData = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/v1/api/insurance/get-all-insurance');
-        console.log('Insurances:', response.data.insurances); 
-        setInsurances(response.data.insurances);
-      } catch (error) {
-        console.error('Error fetching insurance data:', error);
-      }
-    };
-
-    const fetchClientStaffData = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/v1/api/adminUser/get-all-adminUser');
-        const clientStaffsData = response.data.adminUsers.filter(user => user.role === "ClientStaff");
-        console.log('Filtered Client Staffs:', clientStaffsData); 
-        setClientStaffs(clientStaffsData);
-      } catch (error) {
-        console.error('Error fetching client staff data:', error);
-      }
-    };
-
-    fetchBusinessProviderData();
-    fetchInsuranceData();
-    fetchClientStaffData();
+    fetchInitialData();
   }, []);
-
-  useEffect(() => {
-    if (insurances.length > 0) {
-      console.log('Insurance data updated:', insurances);
-    }
-  }, [insurances]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -76,12 +66,21 @@ const PatientRegistrationForm = () => {
       ...formData,
       [name]: value
     });
+
+    if (name === 'state') {
+      const citiesOfState = City.getCitiesOfState('US', value);
+      setCities(citiesOfState);
+    }
   };
 
   const handleFileChange = (e) => {
+    const { name, files } = e.target;
     setFormData({
       ...formData,
-      attachments: e.target.files[0]  
+      attachments: {
+        ...formData.attachments,
+        [name]: files[0] || null
+      }
     });
   };
 
@@ -90,7 +89,15 @@ const PatientRegistrationForm = () => {
 
     const formDataToSubmit = new FormData();
     Object.keys(formData).forEach(key => {
-      formDataToSubmit.append(key, formData[key]);
+      if (key === 'attachments') {
+        Object.keys(formData.attachments).forEach(fileKey => {
+          if (formData.attachments[fileKey]) {
+            formDataToSubmit.append(fileKey, formData.attachments[fileKey]);
+          }
+        });
+      } else {
+        formDataToSubmit.append(key, formData[key]);
+      }
     });
 
     try {
@@ -153,12 +160,30 @@ const PatientRegistrationForm = () => {
 
         <div className="form-group">
           <div className="input-field">
-            <label>City</label>
-            <input type="text" name="city" value={formData.city} onChange={handleChange} />
+            <label>State</label>
+            <select name="state" value={formData.state} onChange={handleChange}>
+              <option value="">Select State</option>
+              {states.map((state) => (
+                <option key={state.isoCode} value={state.isoCode}>
+                  {state.name}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="input-field">
-            <label>State</label>
-            <input type="text" name="state" value={formData.state} onChange={handleChange} />
+            <label>City</label>
+            <select name="city" value={formData.city} onChange={handleChange}>
+              <option value="">Select City</option>
+              {cities.map((city) => (
+                <option key={city.name} value={city.name}>
+                  {city.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="input-field">
+            <label>Zip-Code</label>
+            <input type="tel" name="zipcode" value={formData.zipcode} onChange={handleChange} />
           </div>
           <div className="input-field">
             <label>Phone No.</label>
@@ -184,14 +209,13 @@ const PatientRegistrationForm = () => {
             <input type="text" name="maritalStatus" value={formData.maritalStatus} onChange={handleChange} />
           </div>
           <div className="input-field">
-            <label>Emergency Contact Name</label>
-            <input type="text" name="emergencyContactName" value={formData.emergencyContactName} onChange={handleChange} />
+            <label>SSN</label>
+            <input type="tel" name="ssn" value={formData.ssn} onChange={handleChange} />
           </div>
           <div className="input-field">
-            <label>Emergency Contact No</label>
-            <input type="tel" name="emergencyContactPhone" value={formData.emergencyContactPhone} onChange={handleChange} />
+            <label>Upload ID</label>
+            <input type="file" name="id" onChange={handleFileChange} />
           </div>
-
           <div className="input-field">
             <label>Client Staff Name</label>
             <select name="clientName" value={formData.clientName} onChange={handleChange}>
@@ -205,13 +229,24 @@ const PatientRegistrationForm = () => {
           </div>
         </div>
 
+        <div className="form-group">
+          <div className="input-field">
+            <label>Emergency Contact Name</label>
+            <input type="text" name="emergencyContactName" value={formData.emergencyContactName} onChange={handleChange} />
+          </div>
+          <div className="input-field">
+            <label>Emergency Contact No</label>
+            <input type="tel" name="emergencyContactPhone" value={formData.emergencyContactPhone} onChange={handleChange} />
+          </div>
+        </div>
+
         <h2 className="section-heading">Insurance Information</h2>
         <div className="form-group">
           <div className="input-field">
             <label>Primary Insurance Plan Name</label>
             <select name="primaryInsurancePlanName" value={formData.primaryInsurancePlanName} onChange={handleChange}>
               <option value="">Select Insurance Plan</option>
-              {insurances?.map((insurance) => (
+              {insurances.map((insurance) => (
                 <option key={insurance._id} value={insurance.InsuranceName}>
                   {insurance.InsuranceName}
                 </option>
@@ -219,12 +254,16 @@ const PatientRegistrationForm = () => {
             </select>
           </div>
           <div className="input-field">
-            <label>Primary Insurance Insured's Name</label>
-            <input type="text" name="primaryInsuranceInsuredName" value={formData.primaryInsuranceInsuredName} onChange={handleChange} />
+            <label>Upload Primary Insurance</label>
+            <input type="file" name="primaryInsurance" onChange={handleFileChange} />
           </div>
           <div className="input-field">
-            <label>Attachments</label>
-            <input type="file" name="attachments" onChange={handleFileChange} />
+            <label>Secondary Insurance Plan Name</label>
+            <input type="text" name="secondaryInsurancePlanName" value={formData.secondaryInsurancePlanName} onChange={handleChange} />
+          </div>
+          <div className="input-field">
+            <label>Upload Secondary Insurance</label>
+            <input type="file" name="secondaryInsurance" onChange={handleFileChange} />
           </div>
         </div>
 
