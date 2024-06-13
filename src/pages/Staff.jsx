@@ -7,10 +7,39 @@ const PatientList = () => {
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [status, setStatus] = useState(null);
 
+  // Function to get user role and clientName from token
+  const getUserInfoFromToken = () => {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+
+    // Decode the token to get user information
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    
+    return JSON.parse(jsonPayload);
+  };
+
   useEffect(() => {
     const fetchPatientData = async () => {
+      const userInfo = getUserInfoFromToken();
+      if (!userInfo) {
+        console.error('User is not authenticated');
+        return;
+      }
+
       try {
-        const response = await axios.get('/v1/api/patient/get-all-patient');
+        const response = await axios.get('/v1/api/patient/get-all-patient', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          },
+          params: {
+            role: userInfo.role,
+            clientName: userInfo.clientName
+          }
+        });
         setPatients(response.data.patients);
       } catch (error) {
         console.error('Error fetching patient data:', error);
@@ -73,7 +102,6 @@ const PatientList = () => {
     setSelectedPatient(null);
   };
 
-  
   const handleFileChange = (e) => {
     setFormData({
       ...formData,
@@ -94,6 +122,7 @@ const PatientList = () => {
               <h2>{patient.firstName} {patient.lastName}</h2>
               <p><strong>Age:</strong> {patient.age}</p>
               <p><strong>Sex:</strong> {patient.sex}</p>
+              <p><strong>Clientname:</strong> {patient.clientName}</p>
               <p><strong>Insurance Plan:</strong> {patient.primaryInsurancePlanName} - {patient.primaryInsuranceInsuredName}</p>
             </div>
           ))}

@@ -6,7 +6,7 @@ const CreateAdminUser = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState(''); // State to manage the selected role
+  const [role, setRole] = useState(''); 
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();

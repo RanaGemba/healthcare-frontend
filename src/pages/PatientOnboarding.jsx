@@ -176,21 +176,15 @@ const PatientRegistrationForm = () => {
               <label>Phone No.</label>
               <input type="tel" name="phone" value={formData.phone} onChange={handleChange} />
             </div>
+            
+          
+          </div>
+          <div className="form-group">
+            
             <div className="input-field">
               <label>Email</label>
               <input type="email" name="email" value={formData.email} onChange={handleChange} />
             </div>
-          
-          </div>
-          <div className="input-field">
-            <label>Upload ID</label>
-            <input type="file" accept="image/*" onChange={handleIdCardChange} />
-          </div>
-        </div>
-
-        <div className="section">
-          <h5 className="section-header">Additional Information</h5>
-          <div className="form-group">
             <div className="input-field">
               <label>Sex</label>
               <select name="sex" value={formData.sex} onChange={handleChange}>
@@ -204,6 +198,18 @@ const PatientRegistrationForm = () => {
               <label>Marital Status</label>
               <input type="text" name="maritalStatus" value={formData.maritalStatus} onChange={handleChange} />
             </div>
+          
+          </div>
+          <div className="input-field">
+            <label>Upload ID</label>
+            <input type="file" accept="image/*" onChange={handleIdCardChange} />
+          </div>
+        </div>
+
+        <div className="section">
+          <h5 className="section-header">Additional Information</h5>
+          <div className="form-group">
+           
             <div className="input-field">
               <label>SSN</label>
               <input type="tel" name="ssn" value={formData.ssn} onChange={handleChange} />

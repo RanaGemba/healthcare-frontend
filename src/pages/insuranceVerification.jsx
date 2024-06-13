@@ -84,10 +84,6 @@ const InsuranceVerification = () => {
             <p><strong>Sex:</strong> {patient.sex}</p>
             <p><strong>Email:</strong> {patient.email}</p>
             <p><strong>Insurance Plan:</strong> {patient.primaryInsurancePlanName} - {patient.primaryInsuranceInsuredName}</p>
-            <div className="patient-buttons">
-              <button className="accept-button" onClick={(e) => { e.stopPropagation(); handleAccept(patient); }}>Accept</button>
-              <button className="reject-button" onClick={(e) => { e.stopPropagation(); handleReject(patient); }}>Reject</button>
-            </div>
           </div>
         ))}
       </div>
@@ -128,10 +124,7 @@ const InsuranceVerification = () => {
           <h3>Medical Information</h3>
           <div className="section medical-info">
             <div className="form-group">
-              <label>
-                Insurance Plan:
-                <input type="text" value={`${selectedPatient.primaryInsurancePlanName} - ${selectedPatient.primaryInsuranceInsuredName}`} readOnly />
-              </label>
+             
               <label>
                 L-Code:
                 <input type="text" value={selectedPatient.lCode || ''} readOnly />
@@ -170,23 +163,27 @@ const InsuranceVerification = () => {
             </div>
           </div>
 
-
-
           <h3>Insurance</h3>
           <div className="section medical-info">
             <div className="form-group">
               <label>
-                Insurance Plan:
-                <input type="text" value={`${selectedPatient.primaryInsurancePlanName} - ${selectedPatient.primaryInsuranceInsuredName}`} readOnly />
+                Primary Insurance Plan:
+                <input type="text" value={`${selectedPatient.primaryInsurancePlanName} `} readOnly />
               </label>
-             
+              <label>
+                Secondary Insurance Plan:
+                <input type="text" value={`${selectedPatient.secondaryInsurancePlanName} `} readOnly />
+              </label>
               <label>
                 Remarks:
                 <textarea value={selectedPatient.remarks || ''} readOnly rows="4" />
               </label>
-              
-              
             </div>
+          </div>
+
+          <div className="patient-buttons">
+            <button className="accept-button" onClick={(e) => { e.stopPropagation(); handleAccept(selectedPatient); }}>Accept</button>
+            <button className="reject-button" onClick={(e) => { e.stopPropagation(); handleReject(selectedPatient); }}>Reject</button>
           </div>
         </div>
       )}
