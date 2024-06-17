@@ -32,7 +32,6 @@ const ClientOnboarding = () => {
   const handleUpdateClinic = async (updatedClinic) => {
     try {
       const response = await axios.put(`/v1/api/clinic/update-clinic/${updatedClinic._id}`, updatedClinic);
-      // Assuming response.data.clinic is the updated clinic object
       const updatedClinics = clinics.map(clinic => clinic._id === updatedClinic._id ? response.data.clinic : clinic);
       setClinics(updatedClinics);
     } catch (error) {
