@@ -9,7 +9,6 @@ const PatientList = () => {
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [formData, setFormData] = useState({});
   const [editMode, setEditMode] = useState(false);
-  const [imageModalOpen, setImageModalOpen] = useState(false);
   const [imageSrc, setImageSrc] = useState('');
 
   useEffect(() => {
@@ -29,11 +28,13 @@ const PatientList = () => {
     setSelectedPatient(patient);
     setFormData({ ...patient });
     setEditMode(false);
+    setImageSrc('');
   };
 
   const closeModal = () => {
     setSelectedPatient(null);
     setFormData({});
+    setImageSrc('');
   };
 
   const handleChange = (e) => {
@@ -69,14 +70,8 @@ const PatientList = () => {
 
   const baseURL = 'http://localhost:3000/';
 
-  const openImageModal = (imagePath) => {
+  const openImage = (imagePath) => {
     setImageSrc(`${baseURL}${imagePath}`);
-    setImageModalOpen(true);
-  };
-
-  const closeImageModal = () => {
-    setImageModalOpen(false);
-    setImageSrc('');
   };
 
   return (
@@ -107,193 +102,200 @@ const PatientList = () => {
           className="modal"
           overlayClassName="overlay"
         >
-          <h2>{editMode ? 'Edit Patient Details' : 'Patient Details'}</h2>
-          <FiEdit className="edit-icon" onClick={toggleEditMode} />
-
-          <div className="patient-details">
-            <label>
-              Id Card:
-              <FiImage onClick={() => openImageModal(formData.idCard)} className="image-icon" />
-            </label>
-            <label>
-              Primary Insurance Card:
-              <FiImage onClick={() => openImageModal(formData.primaryInsuranceCard)} className="image-icon" />
-            </label>
-            <label>
-              Secondary Insurance Card:
-              <FiImage onClick={() => openImageModal(formData.secondaryInsuranceCard)} className="image-icon" />
-            </label>
-            <label>
-              Clinic Name:
-              <input
-                name="clinicName"
-                value={formData.clinicName || ''}
-                onChange={handleChange}
-                disabled={!editMode}
-              />
-            </label>
-            <label>
-              First Name:
-              <input
-                name="firstName"
-                value={formData.firstName || ''}
-                onChange={handleChange}
-                disabled={!editMode}
-              />
-            </label>
-            <label>
-              Last Name:
-              <input
-                name="lastName"
-                value={formData.lastName || ''}
-                onChange={handleChange}
-                disabled={!editMode}
-              />
-            </label>
-            <label>
-              Date of Birth:
-              <input
-                name="dateOfBirth"
-                value={formData.dateOfBirth || ''}
-                onChange={handleChange}
-                disabled={!editMode}
-              />
-            </label>
-            <label>
-              Age:
-              <input
-                name="age"
-                value={formData.age || ''}
-                onChange={handleChange}
-                disabled={!editMode}
-              />
-            </label>
-            <label>
-              Address:
-              <input
-                name="address"
-                value={formData.address || ''}
-                onChange={handleChange}
-                disabled={!editMode}
-              />
-            </label>
-            <label>
-              City:
-              <input
-                name="city"
-                value={formData.city || ''}
-                onChange={handleChange}
-                disabled={!editMode}
-              />
-            </label>
-            <label>
-              State:
-              <input
-                name="state"
-                value={formData.state || ''}
-                onChange={handleChange}
-                disabled={!editMode}
-              />
-            </label>
-            <label>
-              Zip Code:
-              <input
-                name="zipcode"
-                value={formData.zipcode || ''}
-                onChange={handleChange}
-                disabled={!editMode}
-              />
-            </label>
-            <label>
-              Phone:
-              <input
-                name="phone"
-                value={formData.phone || ''}
-                onChange={handleChange}
-                disabled={!editMode}
-              />
-            </label>
-            <label>
-              Email:
-              <input
-                name="email"
-                value={formData.email || ''}
-                onChange={handleChange}
-                disabled={!editMode}
-              />
-            </label>
-            <label>
-              Sex:
-              <input
-                name="sex"
-                value={formData.sex || ''}
-                onChange={handleChange}
-                disabled={!editMode}
-              />
-            </label>
-            <label>
-              Marital Status:
-              <input
-                name="maritalStatus"
-                value={formData.maritalStatus || ''}
-                onChange={handleChange}
-                disabled={!editMode}
-              />
-            </label>
-            <label>
-              SSN:
-              <input
-                name="ssn"
-                value={formData.ssn || ''}
-                onChange={handleChange}
-                disabled={!editMode}
-              />
-            </label>
-            <label>
-              Emergency Contact Name:
-              <input
-                name="emergencyContactName"
-                value={formData.emergencyContactName || ''}
-                onChange={handleChange}
-                disabled={!editMode}
-              />
-            </label>
-            <label>
-              Emergency Contact Phone:
-              <input
-                name="emergencyContactPhone"
-                value={formData.emergencyContactPhone || ''}
-                onChange={handleChange}
-                disabled={!editMode}
-              />
-            </label>
-            <label>
-              Primary Insurance Plan Name:
-              <input
-                name="primaryInsurancePlanName"
-                value={formData.primaryInsurancePlanName || ''}
-                onChange={handleChange}
-                disabled={!editMode}
-              />
-            </label>
-            <label>
-              Secondary Insurance Plan Name:
-              <input
-                name="secondaryInsurancePlanName"
-                value={formData.secondaryInsurancePlanName || ''}
-                onChange={handleChange}
-                disabled={!editMode}
-              />
-            </label>
-            <label>
-              Client Name:
-              <input
-                name="clientName"
-                value={formData.clientName || ''}
-                onChange={handleChange}
-                disabled={!editMode}
-              />
-            </label>
+          <div className="modal-content">
+            <div className="patient-details">
+              <h2>{editMode ? 'Edit Patient Details' : 'Patient Details'}</h2>
+              <FiEdit className="edit-icon" onClick={toggleEditMode} />
+              <label>
+                Id Card:
+                <FiImage onClick={() => openImage(formData.idCard)} className="image-icon" />
+              </label>
+              <label>
+                Primary Insurance Card:
+                <FiImage onClick={() => openImage(formData.primaryInsuranceCard)} className="image-icon" />
+              </label>
+              <label>
+                Secondary Insurance Card:
+                <FiImage onClick={() => openImage(formData.secondaryInsuranceCard)} className="image-icon" />
+              </label>
+              <label>
+                Clinic Name:
+                <input
+                  name="clinicName"
+                  value={formData.clinicName || ''}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                />
+              </label>
+              <label>
+                First Name:
+                <input
+                  name="firstName"
+                  value={formData.firstName || ''}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                />
+              </label>
+              <label>
+                Last Name:
+                <input
+                  name="lastName"
+                  value={formData.lastName || ''}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                />
+              </label>
+              <label>
+                Date of Birth:
+                <input
+                  name="dateOfBirth"
+                  value={formData.dateOfBirth || ''}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                />
+              </label>
+              <label>
+                Age:
+                <input
+                  name="age"
+                  value={formData.age || ''}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                />
+              </label>
+              <label>
+                Address:
+                <input
+                  name="address"
+                  value={formData.address || ''}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                />
+              </label>
+              <label>
+                City:
+                <input
+                  name="city"
+                  value={formData.city || ''}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                />
+              </label>
+              <label>
+                State:
+                <input
+                  name="state"
+                  value={formData.state || ''}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                />
+              </label>
+              <label>
+                Zip Code:
+                <input
+                  name="zipcode"
+                  value={formData.zipcode || ''}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                />
+              </label>
+              <label>
+                Phone:
+                <input
+                  name="phone"
+                  value={formData.phone || ''}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                />
+              </label>
+              <label>
+                Email:
+                <input
+                  name="email"
+                  value={formData.email || ''}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                />
+              </label>
+              <label>
+                Sex:
+                <input
+                  name="sex"
+                  value={formData.sex || ''}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                />
+              </label>
+              <label>
+                Marital Status:
+                <input
+                  name="maritalStatus"
+                  value={formData.maritalStatus || ''}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                />
+              </label>
+              <label>
+                SSN:
+                <input
+                  name="ssn"
+                  value={formData.ssn || ''}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                />
+              </label>
+              <label>
+                Emergency Contact Name:
+                <input
+                  name="emergencyContactName"
+                  value={formData.emergencyContactName || ''}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                />
+              </label>
+              <label>
+                Emergency Contact Phone:
+                <input
+                  name="emergencyContactPhone"
+                  value={formData.emergencyContactPhone || ''}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                />
+              </label>
+              <label>
+                Primary Insurance Plan Name:
+                <input
+                  name="primaryInsurancePlanName"
+                  value={formData.primaryInsurancePlanName || ''}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                />
+              </label>
+              <label>
+                Secondary Insurance Plan Name:
+                <input
+                  name="secondaryInsurancePlanName"
+                  value={formData.secondaryInsurancePlanName || ''}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                />
+              </label>
+              <label>
+                Client Name:
+                <input
+                  name="clientName"
+                  value={formData.clientName || ''}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                />
+              </label>
+            </div>
+            {imageSrc && (
+              <div className="image-preview">
+                <img src={imageSrc} alt="Patient Document" />
+                <button className="close-image" onClick={() => setImageSrc('')}>Close Image</button>
+              </div>
+            )}
           </div>
           <div className="modal-buttons">
             {editMode && (
@@ -303,19 +305,6 @@ const PatientList = () => {
           </div>
         </Modal>
       )}
-
-      <Modal
-        isOpen={imageModalOpen}
-        onRequestClose={closeImageModal}
-        contentLabel="Image Viewer"
-        className="image-modal"
-        overlayClassName="overlay"
-      >
-        <div className="image-container">
-          <button className="close-button" onClick={closeImageModal}>Close</button>
-          <img src={imageSrc} alt="Patient Document" className="modal-image" />
-        </div>
-      </Modal>
     </div>
   );
 };
