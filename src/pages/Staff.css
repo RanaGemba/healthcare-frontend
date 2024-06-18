@@ -64,11 +64,17 @@
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-
 .patient-form textarea {
-  resize: vertical;
-  grid-column: span 4; /* Span the whole row */
+  padding: 5px;
+  margin-top: 2px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow-wrap: break-word; 
+  width: fit-content;
 }
+
+
+
 
 .patient-form .checkbox-label,
 .patient-form .radio-buttons {

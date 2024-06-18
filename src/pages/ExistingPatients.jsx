@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import './ExistingPatients.css';
 import axios from "axios";
 import Modal from 'react-modal';
-import { FiEdit } from 'react-icons/fi'; // Import edit icon from react-icons
+import { FiEdit, FiImage } from 'react-icons/fi';
 
 const PatientList = () => {
   const [patients, setPatients] = useState(null);
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [formData, setFormData] = useState({});
-  const [editMode, setEditMode] = useState(false); // State to track edit mode
+  const [editMode, setEditMode] = useState(false);
+  const [imageModalOpen, setImageModalOpen] = useState(false);
+  const [imageSrc, setImageSrc] = useState('');
 
   useEffect(() => {
     const fetchPatientData = async () => {
@@ -25,8 +27,8 @@ const PatientList = () => {
 
   const openModal = (patient) => {
     setSelectedPatient(patient);
-    setFormData({ ...patient }); // Populate form data with selected patient details
-    setEditMode(false); // Initially in view mode
+    setFormData({ ...patient });
+    setEditMode(false);
   };
 
   const closeModal = () => {
@@ -48,7 +50,7 @@ const PatientList = () => {
       console.error('Selected patient ID is undefined');
       return;
     }
-  
+
     try {
       const response = await axios.put(`/v1/api/patient/update-patient/${selectedPatient._id}`, formData);
       if (response.data.success) {
@@ -63,6 +65,18 @@ const PatientList = () => {
     } catch (error) {
       console.error('Error updating patient:', error.response ? error.response.data : error.message);
     }
+  };
+
+  const baseURL = 'http://localhost:3000/';
+
+  const openImageModal = (imagePath) => {
+    setImageSrc(`${baseURL}${imagePath}`);
+    setImageModalOpen(true);
+  };
+
+  const closeImageModal = () => {
+    setImageModalOpen(false);
+    setImageSrc('');
   };
 
   return (
@@ -93,10 +107,22 @@ const PatientList = () => {
           className="modal"
           overlayClassName="overlay"
         >
-          <h2>{editMode ? 'Edit Patient Details' : 'Patient Details'}</h2> 
-                   <FiEdit className="edit-icon" onClick={toggleEditMode} />
+          <h2>{editMode ? 'Edit Patient Details' : 'Patient Details'}</h2>
+          <FiEdit className="edit-icon" onClick={toggleEditMode} />
 
           <div className="patient-details">
+            <label>
+              Id Card:
+              <FiImage onClick={() => openImageModal(formData.idCard)} className="image-icon" />
+            </label>
+            <label>
+              Primary Insurance Card:
+              <FiImage onClick={() => openImageModal(formData.primaryInsuranceCard)} className="image-icon" />
+            </label>
+            <label>
+              Secondary Insurance Card:
+              <FiImage onClick={() => openImageModal(formData.secondaryInsuranceCard)} className="image-icon" />
+            </label>
             <label>
               Clinic Name:
               <input
@@ -270,14 +296,26 @@ const PatientList = () => {
             </label>
           </div>
           <div className="modal-buttons">
-           
             {editMode && (
-              <button  onClick={handleUpdate}>Save Changes</button>
+              <button onClick={handleUpdate}>Save Changes</button>
             )}
             <button onClick={closeModal}>Close</button>
           </div>
         </Modal>
       )}
+
+      <Modal
+        isOpen={imageModalOpen}
+        onRequestClose={closeImageModal}
+        contentLabel="Image Viewer"
+        className="image-modal"
+        overlayClassName="overlay"
+      >
+        <div className="image-container">
+          <button className="close-button" onClick={closeImageModal}>Close</button>
+          <img src={imageSrc} alt="Patient Document" className="modal-image" />
+        </div>
+      </Modal>
     </div>
   );
 };

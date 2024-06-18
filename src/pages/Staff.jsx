@@ -283,15 +283,7 @@ const PatientList = () => {
                   className="short-input" 
                 />
               </label>
-              <label>
-                Remarks:
-                <textarea 
-                  name="remarks"
-                  value={selectedPatient.remarks || ''}
-                  onChange={handleInputChange}
-                  rows="4"
-                />
-              </label>
+             
               <div className="radio-buttons">
                 <label className="checkbox-label">Does this patient need authorization?</label>
                 <label className="radio-label">
@@ -338,9 +330,23 @@ const PatientList = () => {
                 </label>
               )}
             </div>
+
+            <div>
+              <label>
+                Remarks:
+                <textarea 
+                  name="remarks"
+                  value={selectedPatient.remarks || ''}
+                  onChange={handleInputChange}
+                  rows="4"
+                />
+              </label>
+                </div>
           </div>
           <button type="submit" onClick={handleSubmit}>Submit</button>
+          
         </div>
+        
       )}
     </div>
   );

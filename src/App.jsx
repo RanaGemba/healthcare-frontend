@@ -10,6 +10,7 @@ import Staff from "./pages/Staff";
 import ClinicBusinessProvider from "./pages/ClinicBusinessProvider";
 import ExistingPatients from "./pages/ExistingPatients";
 import InsuranceVerification from "./pages/insuranceVerification";
+import ApprovedPatients from "./pages/approvedPatients";
 import LoginPage from "./LoginPage";
 import CreateAdminUser from "./createAdminUser"; 
 
@@ -56,6 +57,8 @@ const App = () => {
             <Route path="/clinicBusinessProvider" element={<ClinicBusinessProvider />} />
             <Route path="/existingPatients" element={<ExistingPatients />} />
             <Route path="/insuranceVerification" element={<InsuranceVerification />} />
+            <Route path="/approvedPatients" element={<ApprovedPatients />} />
+
              
           </Routes>
         </Sidebar>

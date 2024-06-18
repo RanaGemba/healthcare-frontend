@@ -116,6 +116,13 @@ const Sidebar = ({ children }) => {
             </Link>
           </SidebarItem>
         )}
+        {user?.role === "admin" && (
+          <SidebarItem>
+            <Link to="/approvedPatients" className="sidebar-link">
+              <SidebarIcon icon={faHandshake} /> Approved Patients
+            </Link>
+          </SidebarItem>
+        )}
 
         <SidebarItem onClick={handleLogout}>
           <div className="sidebar-link">
